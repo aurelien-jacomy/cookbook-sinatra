@@ -1,0 +1,13 @@
+<h1> Sinatra Cookbook </h1>
+<div>
+	<h2>My recipes</h2>
+	<% @recipes.each_with_index do |recipe, index| %>
+      <li><%= recipe.name %> - <a href=<%="/destroy/#{index}"%>> delete</a></li>
+    <% end %>
+</div>
+<div>
+	<h2>Actions</h2>
+	<ul>
+		<li><a href="/new">Create new recipe</a></li>
+	</ul>
+</div>
