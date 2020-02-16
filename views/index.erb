@@ -2,12 +2,25 @@
 <div>
 	<h2>My recipes</h2>
 	<% @recipes.each_with_index do |recipe, index| %>
-      <li><%= recipe.name %> - <a href=<%="/destroy/#{index}"%>> delete</a></li>
+      <% prep_time = recipe.prep_time.nil? ? "" : " - #{recipe.prep_time}"%>
+      <% done = recipe.done? ? "[x]" : "[ ]"%>
+      <li>
+      	<%= recipe.name %> 
+      	<%= prep_time%> 
+      	- <a href=<%="/mark_as_done/#{index}"%> > <%=done%></a> 
+      	- <a href=<%="/destroy/#{index}"%>> delete</a>
+      </li>
     <% end %>
 </div>
 <div>
 	<h2>Actions</h2>
 	<ul>
 		<li><a href="/new">Create new recipe</a></li>
+		<li>
+			<form action="/search">
+			  <label for="keyword">Search for recipes:</label>
+              <input type="text" id="keyword" name="keyword">
+              <input type="submit" value="Go">
+		    </form></li>
 	</ul>
 </div>

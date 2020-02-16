@@ -2,6 +2,7 @@ require "sinatra"
 require "sinatra/reloader" if development?
 require "pry-byebug"
 require_relative 'cookbook'
+require_relative 'scrap_marmiton_service'
 require "better_errors"
 set :bind, '0.0.0.0'
 
@@ -39,3 +40,23 @@ get '/destroy/:recipe_id' do
   cookbook.remove_recipe(recipe_id)
   redirect '/'
 end
+
+get '/search' do
+  @keyword = params[:keyword]
+  @recipes = ScrapMarmitonService.call(@keyword)
+  RECIPES = @recipes
+  erb :select_recipe
+end
+
+get '/add/:index' do
+  recipe = RECIPES[params[:index].to_i]
+  cookbook.add_recipe(recipe)
+  redirect '/'
+end
+
+get '/mark_as_done/:index' do
+  recipe_id = params[:index].to_i
+  cookbook.mark_as_done(recipe_id)
+  redirect '/'
+end
+

@@ -1,0 +1,7 @@
+<h1> Recipes found on Marmiton for <%= @keyword %> </h1>
+<div>
+	<% @recipes.each_with_index do |recipe, index| %>
+      <%prep_time = recipe.prep_time.nil? ? "" : " - #{recipe.prep_time}"%>
+      <li><%= recipe.name %> <%= prep_time%> - <a href=<%="/add/#{index}"%>> Add</a></li>
+    <% end %>
+</div>

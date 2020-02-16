@@ -14,7 +14,7 @@ class Cookbook
     @csv_path = csv_path
     if !csv_path.nil?
       CSV.foreach(csv_path) do |row|
-        @recipes << Recipe.new(row[0], row[1], row[2], row[3])
+        @recipes << Recipe.new(row[0], row[1], row[2], row[3], row[4])
       end
     else
       @csv_path = 'my_cookbook.csv'
@@ -29,7 +29,7 @@ class Cookbook
     csv_options = { col_sep: ',', quote_char: '"' }
     CSV.open(@csv_path, 'w', csv_options) do |csv|
       @recipes.each_with_index do |recipe, index|
-        csv << [recipe.name, recipe.description, recipe.prep_time, recipe.difficulty, index + 1]
+        csv << [recipe.name, recipe.description, recipe.prep_time, recipe.difficulty, recipe.done]
       end
     end
   end
@@ -39,7 +39,6 @@ class Cookbook
   end
 
   def add_recipe(recipe)
-    recipe.id = @recipes.length + 1
     @recipes << recipe
     save_cookbook_to_csv
   end
@@ -51,5 +50,10 @@ class Cookbook
 
   def find_id(recipe_id)
     return @recipes[recipe_id]
+  end
+
+  def mark_as_done(recipe_id)
+    @recipes[recipe_id].mark_as_done
+    save_cookbook_to_csv
   end
 end
